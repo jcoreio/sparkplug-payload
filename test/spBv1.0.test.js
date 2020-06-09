@@ -48,4 +48,15 @@ describe(`spBv1.0`, function() {
       ).to.equal(value)
     }
   })
+  it(`fractional value for Int8`, function() {
+    const value = -38.4
+    expect(
+      decodePayload(
+        encodePayload({
+          timestamp: Date.now(),
+          metrics: [{ value, type: 'Int32' }],
+        })
+      ).metrics[0].value
+    ).to.equal(value - (value % 1))
+  })
 })
