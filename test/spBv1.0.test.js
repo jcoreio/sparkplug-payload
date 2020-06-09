@@ -19,4 +19,33 @@ describe(`spBv1.0`, function() {
       ).to.equal(value)
     }
   })
+  it(`UInt32`, function() {
+    const value = 0xffffffff
+    expect(
+      decodePayload(
+        encodePayload({
+          timestamp: Date.now(),
+          metrics: [{ value, type: 'UInt32' }],
+        })
+      ).metrics[0].value
+    ).to.equal(value)
+  })
+  it(`Int32 issue`, function() {
+    for (const value of [
+      -0x7fffffff - 1,
+      -0x7fffffff,
+      0,
+      0x7ffffffe,
+      0x7fffffff,
+    ]) {
+      expect(
+        decodePayload(
+          encodePayload({
+            timestamp: Date.now(),
+            metrics: [{ value, type: 'Int32' }],
+          })
+        ).metrics[0].value
+      ).to.equal(value)
+    }
+  })
 })

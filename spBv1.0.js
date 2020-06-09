@@ -81,11 +81,11 @@ function setValue(type, value, object) {
     case 2: // Int16
     case 3: // Int32
     case 5: // UInt8
-    case 6: // UInt32
+    case 6: // UInt16
+    case 7: // UInt32
       object.intValue = value
       break
     case 4: // Int64
-    case 7: // UInt32
     case 8: // UInt64
     case 13: // DataTime
       object.longValue = value
@@ -130,10 +130,10 @@ function getValue(type, object) {
     case 3: // Int32
       return object.intValue | 0
     case 5: // UInt8
-    case 6: // UInt32
+    case 6: // UInt16
+    case 7: // UInt32
       return object.intValue
     case 4: // Int64
-    case 7: // UInt32
     case 8: // UInt64
     case 13: // DataTime
       return object.longValue
