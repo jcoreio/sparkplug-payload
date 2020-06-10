@@ -13,6 +13,7 @@
  ********************************************************************************/
 
 let ProtoBuf = require('protobufjs')
+let Long = require('long')
 
 let SparkplugPayload = ProtoBuf.parse(
     'package org.eclipse.tahu.protobuf; message Payload { message Template { ' +
@@ -72,6 +73,26 @@ let SparkplugPayload = ProtoBuf.parse(
   ),
   Metric = SparkplugPayload.lookup('org.eclipse.tahu.protobuf.Payload.Metric')
 
+var toLong, longToBigInt
+
+if (typeof Buffer !== 'undefined') {
+  var longBuf = new Buffer(8) // eslint-disable-line no-undef
+  toLong = (value, signed) => {
+    value = BigInt(value) // eslint-disable-line no-undef
+    if (signed) longBuf.writeBigInt64BE(value, 0)
+    else longBuf.writeBigUInt64BE(value, 0)
+    return new Long(longBuf.readInt32BE(4), longBuf.readInt32BE(0))
+  }
+  longToBigInt = (long, signed) => {
+    longBuf.writeInt32BE(long.high, 0)
+    longBuf.writeInt32BE(long.low, 4)
+    return signed ? longBuf.readBigInt64BE(0) : longBuf.readBigUInt64BE(0)
+  }
+} else {
+  toLong = value => Long.fromString(value.toString(16), 16)
+  longToBigInt = long => BigInt(long.toString()) // eslint-disable-line no-undef
+}
+
 /**
  * Sets the value of an object given it's type expressed as an integer
  */
@@ -86,9 +107,11 @@ function setValue(type, value, object) {
       object.intValue = value
       break
     case 4: // Int64
+      object.longValue = toLong(value, true)
+      break
     case 8: // UInt64
     case 13: // DataTime
-      object.longValue = value
+      object.longValue = toLong(value, false)
       break
     case 9: // Float
       object.floatValue = value
@@ -134,9 +157,10 @@ function getValue(type, object) {
     case 7: // UInt32
       return object.intValue
     case 4: // Int64
+      return longToBigInt(object.longValue, true)
     case 8: // UInt64
     case 13: // DataTime
-      return object.longValue
+      return longToBigInt(object.longValue, false)
     case 9: // Float
       return object.floatValue
     case 10: // Double
@@ -455,7 +479,7 @@ function encodePropertySet(object) {
     values = []
 
   for (let key in object) {
-    if (object.hasOwnProperty(key)) {
+    if (Object.prototype.hasOwnProperty.call(object, key)) {
       keys.push(key)
       values.push(encodePropertyValue(object[key]))
     }
@@ -656,33 +680,36 @@ function decodeMetric(protoMetric) {
   metric.type = decodeType(protoMetric.datatype)
   metric.value = getValue(protoMetric.datatype, protoMetric)
 
-  if (protoMetric.hasOwnProperty('isNull') && protoMetric.isNull === true) {
+  if (
+    Object.prototype.hasOwnProperty.call(protoMetric, 'isNull') &&
+    protoMetric.isNull === true
+  ) {
     metric.value = null
   } else {
     metric.value = getValue(protoMetric.datatype, protoMetric)
   }
 
-  if (protoMetric.hasOwnProperty('timestamp')) {
+  if (Object.prototype.hasOwnProperty.call(protoMetric, 'timestamp')) {
     metric.timestamp = protoMetric.timestamp.toNumber()
   }
 
-  if (protoMetric.hasOwnProperty('alias')) {
+  if (Object.prototype.hasOwnProperty.call(protoMetric, 'alias')) {
     metric.alias = protoMetric.alias
   }
 
-  if (protoMetric.hasOwnProperty('isHistorical')) {
+  if (Object.prototype.hasOwnProperty.call(protoMetric, 'isHistorical')) {
     metric.isHistorical = protoMetric.isHistorical
   }
 
-  if (protoMetric.hasOwnProperty('isTransient')) {
+  if (Object.prototype.hasOwnProperty.call(protoMetric, 'isTransient')) {
     metric.isTransient = protoMetric.isTransient
   }
 
-  if (protoMetric.hasOwnProperty('metadata')) {
+  if (Object.prototype.hasOwnProperty.call(protoMetric, 'metadata')) {
     metric.metadata = decodeMetaData(protoMetric.metadata)
   }
 
-  if (protoMetric.hasOwnProperty('properties')) {
+  if (Object.prototype.hasOwnProperty.call(protoMetric, 'properties')) {
     metric.properties = decodePropertySet(protoMetric.properties)
   }
 
@@ -724,11 +751,11 @@ exports.decodePayload = function decodePayload(proto) {
   let sparkplugPayload = Payload.decode(proto),
     payload = {}
 
-  if (sparkplugPayload.hasOwnProperty('timestamp')) {
+  if (Object.prototype.hasOwnProperty.call(sparkplugPayload, 'timestamp')) {
     payload.timestamp = sparkplugPayload.timestamp.toNumber()
   }
 
-  if (sparkplugPayload.hasOwnProperty('metrics')) {
+  if (Object.prototype.hasOwnProperty.call(sparkplugPayload, 'metrics')) {
     const metrics = []
     for (let i = 0; i < sparkplugPayload.metrics.length; i++) {
       metrics.push(decodeMetric(sparkplugPayload.metrics[i]))
@@ -736,15 +763,15 @@ exports.decodePayload = function decodePayload(proto) {
     payload.metrics = metrics
   }
 
-  if (sparkplugPayload.hasOwnProperty('seq')) {
+  if (Object.prototype.hasOwnProperty.call(sparkplugPayload, 'seq')) {
     payload.seq = sparkplugPayload.seq.toNumber()
   }
 
-  if (sparkplugPayload.hasOwnProperty('uuid')) {
+  if (Object.prototype.hasOwnProperty.call(sparkplugPayload, 'uuid')) {
     payload.uuid = sparkplugPayload.uuid
   }
 
-  if (sparkplugPayload.hasOwnProperty('body')) {
+  if (Object.prototype.hasOwnProperty.call(sparkplugPayload, 'body')) {
     payload.body = sparkplugPayload.body
   }
 

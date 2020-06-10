@@ -4,6 +4,9 @@
   "description": "routines for encoding and decoding sparkplug payloads",
   "author": "Andy Edwards",
   "license": "MIT",
+  "engines": {
+    "node": ">=12.0.0"
+  },
   "files": [
     "spBv1.0.js",
     "spBv1.0.js.flow"
@@ -81,9 +84,9 @@
     "chai": "^4.1.2",
     "codecov": "^3.0.0",
     "cross-env": "^5.2.0",
-    "eslint": "^4.16.0",
-    "eslint-config-prettier": "^3.3.0",
-    "eslint-watch": "^3.1.3",
+    "eslint": "^7.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-watch": "^7.0.0",
     "flow-bin": "^0.126.1",
     "husky": "^1.1.4",
     "istanbul": "^0.4.5",
@@ -113,6 +116,7 @@
     }
   },
   "dependencies": {
+    "long": "^4.0.0",
     "protobufjs": "^6.9.0"
   }
 }
