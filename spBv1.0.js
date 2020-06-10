@@ -78,19 +78,22 @@ var toLong, longToBigInt
 if (typeof Buffer !== 'undefined') {
   var longBuf = new Buffer(8) // eslint-disable-line no-undef
   toLong = (value, signed) => {
+    if (value == null) return null
     value = BigInt(value) // eslint-disable-line no-undef
     if (signed) longBuf.writeBigInt64BE(value, 0)
     else longBuf.writeBigUInt64BE(value, 0)
     return new Long(longBuf.readInt32BE(4), longBuf.readInt32BE(0))
   }
-  longToBigInt = (long, signed) => {
-    longBuf.writeInt32BE(long.high, 0)
-    longBuf.writeInt32BE(long.low, 4)
+  longToBigInt = (value, signed) => {
+    if (value == null) return null
+    longBuf.writeInt32BE(value.high, 0)
+    longBuf.writeInt32BE(value.low, 4)
     return signed ? longBuf.readBigInt64BE(0) : longBuf.readBigUInt64BE(0)
   }
 } else {
-  toLong = value => Long.fromString(value.toString(16), 16)
-  longToBigInt = long => BigInt(long.toString()) // eslint-disable-line no-undef
+  toLong = value =>
+    value == null ? null : Long.fromString(value.toString(16), 16)
+  longToBigInt = value => (value == null ? null : BigInt(value.toString())) // eslint-disable-line no-undef
 }
 
 /**

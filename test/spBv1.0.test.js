@@ -30,10 +30,12 @@ describe(`spBv1.0`, function() {
     checkRoundTrip(0xffffffffffffffffn, 'UInt64')
     checkRoundTrip(0xfffffffffffffffen, 'UInt64')
     checkRoundTrip(0n, 'UInt64')
+    checkRoundTrip(null, 'UInt64')
   })
   it(`Int64`, function() {
     checkRoundTrip(-0x7fffffffffffffffn - 1n, 'Int64')
     checkRoundTrip(0x7ffffffffffffffen, 'Int64')
+    checkRoundTrip(null, 'Int64')
   })
   it(`Int32 issue`, function() {
     for (const value of [
