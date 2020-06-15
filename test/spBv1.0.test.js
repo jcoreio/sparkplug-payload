@@ -10,7 +10,14 @@ function checkRoundTrip(value, type, expected) {
     })
   ).metrics[0].value
 
-  expect(actual).to.equal(expected !== undefined ? expected : value)
+  if (expected !== expected) expect(actual).to.be.NaN
+  else expect(actual).to.equal(expected !== undefined ? expected : value)
+}
+
+const floatBuf = Buffer.alloc(4)
+function float(intBits) {
+  floatBuf.writeUInt32BE(intBits, 0)
+  return floatBuf.readFloatBE(0)
 }
 
 describe(`spBv1.0`, function() {
@@ -25,17 +32,21 @@ describe(`spBv1.0`, function() {
   })
   it(`UInt32`, function() {
     checkRoundTrip(0xffffffff, 'UInt32')
+    checkRoundTrip(987234.583472, 'UInt32', 987234)
   })
   it(`UInt64`, function() {
     checkRoundTrip(0xffffffffffffffffn, 'UInt64')
     checkRoundTrip(0xfffffffffffffffen, 'UInt64')
     checkRoundTrip(0n, 'UInt64')
     checkRoundTrip(null, 'UInt64')
+    checkRoundTrip(987234.583472, 'UInt64', 987234n)
   })
   it(`Int64`, function() {
     checkRoundTrip(-0x7fffffffffffffffn - 1n, 'Int64')
     checkRoundTrip(0x7ffffffffffffffen, 'Int64')
     checkRoundTrip(null, 'Int64')
+    checkRoundTrip(987234.583472, 'Int64', 987234n)
+    checkRoundTrip(-987234.583472, 'Int64', -987234n)
   })
   it(`Int32 issue`, function() {
     for (const value of [
@@ -51,5 +62,12 @@ describe(`spBv1.0`, function() {
   it(`fractional value for Int8`, function() {
     const value = -38.4
     checkRoundTrip(value, 'Int32', -38)
+  })
+  it(`Float`, function() {
+    checkRoundTrip(float(0xff7fffff), 'Float')
+    checkRoundTrip(float(0x80000001), 'Float')
+    checkRoundTrip(float(0x00000001), 'Float')
+    checkRoundTrip(float(0x7f7fffff), 'Float')
+    checkRoundTrip(float(0x7fc00000), 'Float', NaN)
   })
 })
