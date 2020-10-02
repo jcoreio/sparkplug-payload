@@ -29,22 +29,22 @@ export type Bytes = Uint8Array | Buffer | Array<number>
 
 export type NumberPropertyValue = {
   type: NumberDataType
-  value?: number
+  value?: number | null
 }
 
 export type StringPropertyValue = {
   type: StringDataType
-  value?: string
+  value?: string | null
 }
 
 export type BooleanPropertyValue = {
   type: 'Boolean'
-  value?: boolean
+  value?: boolean | null
 }
 
 export type DateTimePropertyValue = {
   type: 'DateTime'
-  value?: Date | number
+  value?: Date | number | null
 }
 
 export type PropertySetValue = {
@@ -78,22 +78,22 @@ export type MetricBase = {
 
 export type NumberMetric = MetricBase & {
   type: NumberDataType
-  value?: number
+  value?: number | null
 }
 
 export type DateTimeMetric = MetricBase & {
   type: 'DateTime'
-  value?: Date | number
+  value?: Date | number | null
 }
 
 export type BooleanMetric = MetricBase & {
   type: 'Boolean'
-  value?: boolean
+  value?: boolean | null
 }
 
 export type StringMetric = MetricBase & {
   type: StringDataType
-  value?: string
+  value?: string | null
 }
 
 export type DataSetValueTypes = {
@@ -155,25 +155,25 @@ export type Metric =
 export type NumberParameter = {
   name?: string
   type: NumberDataType
-  value?: number
+  value?: number | null
 }
 
 export type BooleanParameter = {
   name?: string
   type: 'Boolean'
-  value?: boolean
+  value?: boolean | null
 }
 
 export type StringParameter = {
   name?: string
   type: StringDataType
-  value?: string
+  value?: string | null
 }
 
 export type DateTimeParameter = {
   name?: string
   type: 'DateTime'
-  value?: Date | number
+  value?: Date | number | null
 }
 
 export type Parameter =
