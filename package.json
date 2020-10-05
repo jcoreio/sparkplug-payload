@@ -28,8 +28,7 @@
   },
   "lint-staged": {
     "*.{js,json,css,md}": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ]
   },
   "config": {
@@ -73,19 +72,19 @@
     "@jedwards1211/commitlint-config": "^1.0.0",
     "@jedwards1211/eslint-config": "^2.0.0",
     "chai": "^4.1.2",
-    "codecov": "^3.0.0",
+    "codecov": "^3.7.2",
     "cross-env": "^5.2.0",
-    "eslint": "^4.16.0",
-    "eslint-config-prettier": "^3.3.0",
+    "eslint": "^7.10.0",
+    "eslint-config-prettier": "^6.12.0",
     "eslint-watch": "^3.1.3",
-    "husky": "^1.1.4",
+    "husky": "^4.3.0",
     "istanbul": "^0.4.5",
-    "lint-staged": "^8.0.4",
+    "lint-staged": "^10.4.0",
     "mocha": "^6.2.1",
     "nyc": "^11.4.1",
     "prettier": "^1.15.1",
     "prettier-eslint": "^8.8.2",
-    "semantic-release": "^15.13.3"
+    "semantic-release": "^17.1.2"
   },
   "renovate": {
     "extends": [
@@ -104,5 +103,8 @@
     "major": {
       "automerge": false
     }
+  },
+  "dependencies": {
+    "p-timeout": "^3.2.0"
   }
 }
