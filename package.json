@@ -8,7 +8,6 @@
   "scripts": {
     "lint": "eslint *.js test --cache",
     "lint:fix": "eslint --fix *.js test --cache",
-    "lint:watch": "esw --watch *.js test --cache",
     "prettier": "prettier --write *.js 'test/**/*.js' *.json *.md",
     "prettier:check": "prettier --list-different *.js 'test/**/*.js' *.json *.md",
     "test": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha $npm_package_config_mocha",
