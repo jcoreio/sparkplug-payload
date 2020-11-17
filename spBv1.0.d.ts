@@ -116,6 +116,8 @@ export type DataSetValueTypes = {
 
 export type DataSetValueType = keyof DataSetValueTypes
 
+export type DataType = DataSetValueType
+
 export type Row<Types extends DataSetValueType[]> = {
   [K in keyof Types]: DataSetValueType | null | undefined
 }

@@ -12,10 +12,7 @@ export type NumberDataType =
   | 'Float'
   | 'Double'
 
-export type StringDataType = 
-  | 'String'
-  | 'Text'
-  | 'UUID'
+export type StringDataType = 'String' | 'Text' | 'UUID'
 
 export type MetaData = {|
   isMultiPart?: ?boolean,
@@ -49,7 +46,6 @@ export type DateTimePropertyValue = {|
   type: 'DateTime',
   value?: ?(Date | number),
 |}
-
 
 export type PropertySetValue = {|
   type: 'PropertySet',
@@ -88,7 +84,7 @@ export type NumberMetric = {|
 
 export type DateTimeMetric = {|
   ...MetricBase,
-  type: 'DateTime', 
+  type: 'DateTime',
   value?: ?(Date | number),
 |}
 
@@ -124,7 +120,12 @@ export type DataSetValueTypes = {|
 
 export type DataSetValueType = $Keys<DataSetValueTypes>
 
-export type Row<Types: Array<DataSetValueType>> = $TupleMap<Types, <T>(T) => ?$ElementType<DataSetValueTypes, T>>
+export type DataType = DataSetValueType
+
+export type Row<Types: Array<DataSetValueType>> = $TupleMap<
+  Types,
+  <T>(T) => ?$ElementType<DataSetValueTypes, T>
+>
 
 export type DataSet<Types: Array<DataSetValueType>> = {|
   numOfColumns: number,
@@ -180,7 +181,7 @@ export type StringParameter = {|
 
 export type DateTimeParameter = {|
   name?: ?string,
-  type: 'DateTime', 
+  type: 'DateTime',
   value?: ?(Date | number),
 |}
 
@@ -204,5 +205,7 @@ type DeepReadOnlyFn = (<T>(Array<T>) => $ReadOnlyArray<$DeepReadOnly<T>>) &
 
 type $DeepReadOnly<T> = $Call<DeepReadOnlyFn, T>
 
-declare export function encodePayload(payload: $DeepReadOnly<Payload>): Uint8Array
+declare export function encodePayload(
+  payload: $DeepReadOnly<Payload>
+): Uint8Array
 declare export function decodePayload(payload: Uint8Array): Payload
