@@ -65,7 +65,7 @@ export type PropertyValue =
   | PropertySetValue
   | PropertySetListValue
 
-export type PropertySet = {| [key: string]: PropertyValue |}
+export type PropertySet = { [key: string]: PropertyValue }
 
 export type MetricBase = {|
   name?: ?string,
