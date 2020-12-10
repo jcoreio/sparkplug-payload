@@ -247,6 +247,7 @@ function encodeType(typeString) {
       return 0
   }
 }
+exports.encodeType = encodeType
 
 function decodeType(typeInt) {
   switch (typeInt) {
@@ -292,6 +293,7 @@ function decodeType(typeInt) {
       return 'PropertySetList'
   }
 }
+exports.decodeType = decodeType
 
 function encodeTypes(typeArray) {
   let types = []

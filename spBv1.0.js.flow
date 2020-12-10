@@ -12,6 +12,8 @@ export type NumberDataType =
   | 'Float'
   | 'Double'
 
+export type BigIntDataType = 'Int64' | 'UInt64'
+
 export type StringDataType = 'String' | 'Text' | 'UUID'
 
 export type MetaData = {|
@@ -32,6 +34,12 @@ export type NumberPropertyValue = {|
   value?: ?number,
 |}
 
+export type BigIntPropertyValue = {|
+  type: BigIntDataType,
+  // $FlowFixMe
+  value?: ?bigint,
+|}
+
 export type StringPropertyValue = {|
   type: StringDataType,
   value?: ?string,
@@ -44,7 +52,8 @@ export type BooleanPropertyValue = {|
 
 export type DateTimePropertyValue = {|
   type: 'DateTime',
-  value?: ?(Date | number),
+  // $FlowFixMe
+  value?: ?(Date | number | bigint),
 |}
 
 export type PropertySetValue = {|
@@ -59,6 +68,7 @@ export type PropertySetListValue = {|
 
 export type PropertyValue =
   | NumberPropertyValue
+  | BigIntPropertyValue
   | StringPropertyValue
   | BooleanPropertyValue
   | DateTimePropertyValue
@@ -70,6 +80,8 @@ export type PropertySet = { [key: string]: PropertyValue }
 export type MetricBase = {|
   name?: ?string,
   alias?: ?number,
+  // $FlowFixMe
+  timestamp?: ?(number | bigint),
   isHistorical?: ?boolean,
   isTransient?: ?boolean,
   metadata?: ?MetaData,
@@ -82,10 +94,18 @@ export type NumberMetric = {|
   value?: ?number,
 |}
 
+export type BigIntMetric = {|
+  ...MetricBase,
+  type: BigIntDataType,
+  // $FlowFixMe
+  value?: ?bigint,
+|}
+
 export type DateTimeMetric = {|
   ...MetricBase,
   type: 'DateTime',
-  value?: ?(Date | number),
+  // $FlowFixMe
+  value?: ?(Date | number | bigint),
 |}
 
 export type BooleanMetric = {|
@@ -104,16 +124,19 @@ export type DataSetValueTypes = {|
   Int8: number,
   Int16: number,
   Int32: number,
-  Int64: number,
+  // $FlowFixMe
+  Int64: number | bigint,
   UInt8: number,
   UInt16: number,
   UInt32: number,
-  UInt64: number,
+  // $FlowFixMe
+  UInt64: number | bigint,
   Float: number,
   Double: number,
   Boolean: boolean,
   String: string,
-  DateTime: Date | number,
+  // $FlowFixMe
+  DateTime: Date | number | bigint,
   Text: string,
   UUID: string,
 |}
@@ -155,6 +178,7 @@ export type TemplateMetric = {|
 
 export type Metric =
   | NumberMetric
+  | BigIntMetric
   | BooleanMetric
   | StringMetric
   | DateTimeMetric
@@ -165,6 +189,13 @@ export type NumberParameter = {|
   name?: ?string,
   type: NumberDataType,
   value?: ?number,
+|}
+
+export type BigIntParameter = {|
+  name?: ?string,
+  type: BigIntDataType,
+  // $FlowFixMe
+  value?: ?bigint,
 |}
 
 export type BooleanParameter = {|
@@ -187,6 +218,7 @@ export type DateTimeParameter = {|
 
 export type Parameter =
   | NumberParameter
+  | BigIntParameter
   | BooleanParameter
   | StringParameter
   | DateTimeParameter
@@ -209,3 +241,6 @@ declare export function encodePayload(
   payload: $DeepReadOnly<Payload>
 ): Uint8Array
 declare export function decodePayload(payload: Uint8Array): Payload
+
+declare export function encodeType(typeString: string): number
+declare export function decodeType(typeInt: number): ?string
