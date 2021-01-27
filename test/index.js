@@ -1,5 +1,5 @@
 require('..')
 
-describe('test setup', function() {
-  it('works', function() {})
+describe('test setup', function () {
+  it('works', function () {})
 })
