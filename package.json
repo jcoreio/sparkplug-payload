@@ -3,7 +3,7 @@
   "version": "0.0.0-development",
   "description": "routines for encoding and decoding sparkplug payloads",
   "author": "Andy Edwards",
-  "license": "MIT",
+  "license": "EPL-2.0",
   "engines": {
     "node": ">=12.0.0"
   },
