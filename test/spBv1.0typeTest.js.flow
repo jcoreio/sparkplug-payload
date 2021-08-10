@@ -3,30 +3,31 @@
 import * as sparkplug from '../spBv1.0'
 
 // $FlowFixMe
-sparkplug.encodePayload({ })
+sparkplug.encodePayload({})
 
 sparkplug.encodePayload({
-  timestamp: Date.now()
+  timestamp: Date.now(),
 })
 
 sparkplug.encodePayload({
   timestamp: Date.now(),
   metrics: [
-    {value: null, type: 'UInt8'},
-    {value: 2, type: 'UInt8'},
-    {value: 2, type: 'Int8'},
-    {value: 2, type: 'Float'},
-    {value: 2, type: 'DateTime'},
-    {value: new Date(), type: 'DateTime'},
-    {value: null, type: 'String'},
-    {value: 'blah', type: 'String'},
-    {value: null, type: 'Boolean'},
-    {value: true, type: 'Boolean'},
+    { value: null, type: 'UInt8' },
+    { value: 2, type: 'UInt8' },
+    { value: 2, type: 'Int8' },
+    { value: 2, type: 'Float' },
+    { value: 2, type: 'DateTime' },
+    { value: new Date(), type: 'DateTime' },
+    { value: null, type: 'String' },
+    { value: 'blah', type: 'String' },
+    { value: null, type: 'Boolean' },
+    { value: true, type: 'Boolean' },
     // $FlowFixMe
-    {value: 'hello', type: 'UInt8'},
+    { value: 'hello', type: 'UInt8' },
     // $FlowFixMe
-    {value: 2, type: 'String'},
+    { value: 2, type: 'String' },
     // $FlowFixMe
-    {value: 2, type: 'Boolean'},
-  ]
+    { value: 2, type: 'Boolean' },
+    { value: Buffer.from([0, 1, 2]), type: 'Bytes' },
+  ],
 })

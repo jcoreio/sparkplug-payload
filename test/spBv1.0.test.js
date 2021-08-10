@@ -3,15 +3,19 @@ const { expect } = require('chai')
 const { encodePayload, decodePayload } = require('../spBv1.0')
 
 function checkRoundTrip(value, type, expected) {
-  const actual = decodePayload(
+  const decoded = decodePayload(
     encodePayload({
       timestamp: Date.now(),
       metrics: [{ value, type }],
     })
-  ).metrics[0].value
+  ).metrics[0]
 
-  if (expected !== expected) expect(actual).to.be.NaN
-  else expect(actual).to.equal(expected !== undefined ? expected : value)
+  if (expected !== expected) expect(decoded.value).to.be.NaN
+  else
+    expect(decoded.value).to.deep.equal(
+      expected !== undefined ? expected : value
+    )
+  expect(decoded.type).to.equal(type)
 }
 
 const floatBuf = Buffer.alloc(4)
@@ -69,5 +73,19 @@ describe(`spBv1.0`, function () {
     checkRoundTrip(float(0x00000001), 'Float')
     checkRoundTrip(float(0x7f7fffff), 'Float')
     checkRoundTrip(float(0x7fc00000), 'Float', NaN)
+  })
+  it(`DateTime`, function () {
+    checkRoundTrip(123412341n, 'DateTime')
+    checkRoundTrip(
+      new Date('Jan 1 2021'),
+      'DateTime',
+      BigInt(new Date('Jan 1 2021').getTime()) // eslint-disable-line no-undef
+    )
+  })
+  it(`Bytes`, function () {
+    checkRoundTrip(Buffer.from([0, 1, 2, 3]), 'Bytes')
+  })
+  it(`File`, function () {
+    checkRoundTrip(Buffer.from([0, 1, 2, 3]), 'File')
   })
 })

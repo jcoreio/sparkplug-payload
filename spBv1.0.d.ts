@@ -146,6 +146,16 @@ export type TemplateMetric = MetricBase & {
   value: Template
 }
 
+export type BytesMetric = MetricBase & {
+  type: 'Bytes'
+  value: Bytes
+}
+
+export type FileMetric = MetricBase & {
+  type: 'File'
+  value: Bytes
+}
+
 export type Metric =
   | NumberMetric
   | BooleanMetric
@@ -153,6 +163,8 @@ export type Metric =
   | DateTimeMetric
   | DataSetMetric
   | TemplateMetric
+  | BytesMetric
+  | FileMetric
 
 export type NumberParameter = {
   name?: string
@@ -194,3 +206,6 @@ export type Payload = {
 
 export function encodePayload(payload: Payload): Uint8Array
 export function decodePayload(payload: Uint8Array): Payload
+
+export function encodeType(typeString: string): number
+export function decodeType(typeInt: number): string | null | undefined

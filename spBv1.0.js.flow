@@ -176,6 +176,18 @@ export type TemplateMetric = {|
   value: Template,
 |}
 
+export type BytesMetric = {|
+  ...MetricBase,
+  type: 'Bytes',
+  value: Bytes,
+|}
+
+export type FileMetric = {|
+  ...MetricBase,
+  type: 'File',
+  value: Bytes,
+|}
+
 export type Metric =
   | NumberMetric
   | BigIntMetric
@@ -184,6 +196,8 @@ export type Metric =
   | DateTimeMetric
   | DataSetMetric
   | TemplateMetric
+  | BytesMetric
+  | FileMetric
 
 export type NumberParameter = {|
   name?: ?string,
