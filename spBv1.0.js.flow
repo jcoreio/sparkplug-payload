@@ -1,0 +1,246 @@
+// @flow
+
+export type NumberDataType =
+  | 'Int8'
+  | 'Int16'
+  | 'Int32'
+  | 'Int64'
+  | 'UInt8'
+  | 'UInt16'
+  | 'UInt32'
+  | 'UInt64'
+  | 'Float'
+  | 'Double'
+
+export type BigIntDataType = 'Int64' | 'UInt64'
+
+export type StringDataType = 'String' | 'Text' | 'UUID'
+
+export type MetaData = {|
+  isMultiPart?: ?boolean,
+  contentType?: ?string,
+  size?: ?number,
+  seq?: ?number,
+  fileName?: ?string,
+  fileType?: ?string,
+  md5?: ?string,
+  description?: ?string,
+|}
+
+export type Bytes = Uint8Array | Buffer | Array<number>
+
+export type NumberPropertyValue = {|
+  type: NumberDataType,
+  value?: ?number,
+|}
+
+export type BigIntPropertyValue = {|
+  type: BigIntDataType,
+  // $FlowFixMe
+  value?: ?bigint,
+|}
+
+export type StringPropertyValue = {|
+  type: StringDataType,
+  value?: ?string,
+|}
+
+export type BooleanPropertyValue = {|
+  type: 'Boolean',
+  value?: ?boolean,
+|}
+
+export type DateTimePropertyValue = {|
+  type: 'DateTime',
+  // $FlowFixMe
+  value?: ?(Date | number | bigint),
+|}
+
+export type PropertySetValue = {|
+  type: 'PropertySet',
+  value: PropertySet,
+|}
+
+export type PropertySetListValue = {|
+  type: 'PropertySetList',
+  value: Array<PropertySet>,
+|}
+
+export type PropertyValue =
+  | NumberPropertyValue
+  | BigIntPropertyValue
+  | StringPropertyValue
+  | BooleanPropertyValue
+  | DateTimePropertyValue
+  | PropertySetValue
+  | PropertySetListValue
+
+export type PropertySet = { [key: string]: PropertyValue }
+
+export type MetricBase = {|
+  name?: ?string,
+  alias?: ?number,
+  // $FlowFixMe
+  timestamp?: ?(number | bigint),
+  isHistorical?: ?boolean,
+  isTransient?: ?boolean,
+  metadata?: ?MetaData,
+  properties?: ?PropertySet,
+|}
+
+export type NumberMetric = {|
+  ...MetricBase,
+  type: NumberDataType,
+  value?: ?number,
+|}
+
+export type BigIntMetric = {|
+  ...MetricBase,
+  type: BigIntDataType,
+  // $FlowFixMe
+  value?: ?bigint,
+|}
+
+export type DateTimeMetric = {|
+  ...MetricBase,
+  type: 'DateTime',
+  // $FlowFixMe
+  value?: ?(Date | number | bigint),
+|}
+
+export type BooleanMetric = {|
+  ...MetricBase,
+  type: 'Boolean',
+  value?: ?boolean,
+|}
+
+export type StringMetric = {|
+  ...MetricBase,
+  type: StringDataType,
+  value?: ?string,
+|}
+
+export type DataSetValueTypes = {|
+  Int8: number,
+  Int16: number,
+  Int32: number,
+  // $FlowFixMe
+  Int64: number | bigint,
+  UInt8: number,
+  UInt16: number,
+  UInt32: number,
+  // $FlowFixMe
+  UInt64: number | bigint,
+  Float: number,
+  Double: number,
+  Boolean: boolean,
+  String: string,
+  // $FlowFixMe
+  DateTime: Date | number | bigint,
+  Text: string,
+  UUID: string,
+|}
+
+export type DataSetValueType = $Keys<DataSetValueTypes>
+
+export type DataType = DataSetValueType
+
+export type Row<Types: Array<DataSetValueType>> = $TupleMap<
+  Types,
+  <T>(T) => ?$ElementType<DataSetValueTypes, T>
+>
+
+export type DataSet<Types: Array<DataSetValueType>> = {|
+  numOfColumns: number,
+  columns: $TupleMap<Types, () => string>,
+  types: Types,
+  rows: Array<Row<Types>>,
+|}
+
+export type DataSetMetric = {|
+  ...MetricBase,
+  type: 'DataSet',
+  value: DataSet<any>,
+|}
+
+export type Template = {|
+  metrics?: ?Array<Metric>,
+  version?: ?string,
+  isDefinition?: ?boolean,
+  templateRef?: ?string,
+|}
+
+export type TemplateMetric = {|
+  ...MetricBase,
+  type: 'Template',
+  value: Template,
+|}
+
+export type Metric =
+  | NumberMetric
+  | BigIntMetric
+  | BooleanMetric
+  | StringMetric
+  | DateTimeMetric
+  | DataSetMetric
+  | TemplateMetric
+
+export type NumberParameter = {|
+  name?: ?string,
+  type: NumberDataType,
+  value?: ?number,
+|}
+
+export type BigIntParameter = {|
+  name?: ?string,
+  type: BigIntDataType,
+  // $FlowFixMe
+  value?: ?bigint,
+|}
+
+export type BooleanParameter = {|
+  name?: ?string,
+  type: 'Boolean',
+  value?: ?boolean,
+|}
+
+export type StringParameter = {|
+  name?: ?string,
+  type: StringDataType,
+  value?: ?string,
+|}
+
+export type DateTimeParameter = {|
+  name?: ?string,
+  type: 'DateTime',
+  value?: ?(Date | number),
+|}
+
+export type Parameter =
+  | NumberParameter
+  | BigIntParameter
+  | BooleanParameter
+  | StringParameter
+  | DateTimeParameter
+
+export type Payload = {|
+  timestamp: number,
+  seq?: ?number,
+  uuid?: ?string,
+  body?: ?Bytes,
+  metrics?: ?Array<Metric>,
+|}
+
+type DeepReadOnlyFn = (<T>(Array<T>) => $ReadOnlyArray<$DeepReadOnly<T>>) &
+  (<T: {}>(T) => $ReadOnly<$ObjMap<T, DeepReadOnlyFn>>) &
+  (<T>(T) => T)
+
+type $DeepReadOnly<T> = $Call<DeepReadOnlyFn, T>
+
+declare export function encodePayload(
+  payload: $DeepReadOnly<Payload>
+): Uint8Array
+declare export function decodePayload(payload: Uint8Array): Payload
+
+declare export function encodeType(typeString: string): number
+declare export function decodeType(typeInt: number): ?string

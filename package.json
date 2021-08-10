@@ -1,10 +1,17 @@
 {
-  "name": "untranspiled-js-library-skeleton",
+  "name": "@jcoreio/sparkplug-payload",
   "version": "0.0.0-development",
-  "description": "my skeleton for transpiler-free JS packages",
-  "main": "index.js",
+  "description": "routines for encoding and decoding sparkplug payloads",
   "author": "Andy Edwards",
-  "license": "MIT",
+  "license": "EPL-2.0",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "files": [
+    "spBv1.0.js",
+    "spBv1.0.js.flow",
+    "spBv1.0.d.ts"
+  ],
   "scripts": {
     "lint": "eslint *.js test --cache",
     "lint:fix": "eslint --fix *.js test --cache",
@@ -14,14 +21,14 @@
     "test:watch": "cross-env NODE_ENV=test mocha --watch $npm_package_config_mocha",
     "test:debug": "cross-env NODE_ENV=test mocha --inspect-brk $npm_package_config_mocha",
     "codecov": "nyc report --reporter=text-lcov > coverage.lcov; codecov",
-    "prepublishOnly": "npm run lint && npm test",
+    "prepublishOnly": "npm run lint && flow && tsc && npm test",
     "open:coverage": "open coverage/lcov-report/index.html",
     "semantic-release": "semantic-release"
   },
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -e $GIT_PARAMS",
-      "pre-commit": "lint-staged && npm run lint",
+      "pre-commit": "lint-staged && npm run lint && flow && tsc",
       "pre-push": "npm test"
     }
   },
@@ -56,15 +63,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jedwards1211/untranspiled-js-library-skeleton.git"
+    "url": "https://github.com/jcoreio/sparkplug-payload.git"
   },
   "keywords": [
-    "skeleton"
+    "sparkplug",
+    "sparkplugb",
+    "sparkplug-b",
+    "mqtt"
   ],
   "bugs": {
-    "url": "https://github.com/jedwards1211/untranspiled-js-library-skeleton/issues"
+    "url": "https://github.com/jcoreio/sparkplug-payload/issues"
   },
-  "homepage": "https://github.com/jedwards1211/untranspiled-js-library-skeleton#readme",
+  "homepage": "https://github.com/jcoreio/sparkplug-payload#readme",
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
@@ -75,13 +85,18 @@
     "cross-env": "^7.0.3",
     "eslint": "^7.18.0",
     "eslint-config-prettier": "^7.2.0",
+    "flow-bin": "^0.126.1",
     "husky": "^4.3.8",
     "lint-staged": "^10.5.3",
     "mocha": "^8.2.1",
     "nyc": "^15.1.0",
     "prettier": "^2.2.1",
     "prettier-eslint": "^12.0.0",
-    "semantic-release": "^17.3.7"
+    "semantic-release": "^17.3.7",
+    "typescript": "^4.0.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "long": "^4.0.0",
+    "protobufjs": "^6.9.0"
+  }
 }

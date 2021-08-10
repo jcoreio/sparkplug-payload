@@ -1,5 +1,12 @@
 {
+  "extends": ["@jedwards1211/eslint-config", "eslint-config-prettier"],
+  "parserOptions": {
+    "ecmaVersion": 2020
+  },
   "env": {
-    "mocha": true
+    "es6": true,
+    "commonjs": true,
+    "mocha": true,
+    "node": true
   }
 }
