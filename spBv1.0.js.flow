@@ -139,6 +139,8 @@ export type DataSetValueTypes = {|
   DateTime: Date | number | bigint,
   Text: string,
   UUID: string,
+  Bytes: Bytes,
+  File: Bytes,
 |}
 
 export type DataSetValueType = $Keys<DataSetValueTypes>

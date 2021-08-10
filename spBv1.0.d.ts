@@ -12,6 +12,8 @@ export type NumberDataType =
   | 'Float'
   | 'Double'
 
+export type BigIntDataType = 'Int64' | 'UInt64'
+
 export type StringDataType = 'String' | 'Text' | 'UUID'
 
 export type MetaData = {
@@ -32,6 +34,11 @@ export type NumberPropertyValue = {
   value?: number | null
 }
 
+export type BigIntPropertyValue = {
+  type: BigIntDataType
+  value?: bigint | null
+}
+
 export type StringPropertyValue = {
   type: StringDataType
   value?: string | null
@@ -44,7 +51,7 @@ export type BooleanPropertyValue = {
 
 export type DateTimePropertyValue = {
   type: 'DateTime'
-  value?: Date | number | null
+  value?: Date | number | bigint | null
 }
 
 export type PropertySetValue = {
@@ -59,6 +66,7 @@ export type PropertySetListValue = {
 
 export type PropertyValue =
   | NumberPropertyValue
+  | BigIntPropertyValue
   | StringPropertyValue
   | BooleanPropertyValue
   | DateTimePropertyValue
@@ -81,9 +89,14 @@ export type NumberMetric = MetricBase & {
   value?: number | null
 }
 
+export type BigIntMetric = MetricBase & {
+  type: BigIntDataType
+  value?: bigint | null
+}
+
 export type DateTimeMetric = MetricBase & {
   type: 'DateTime'
-  value?: Date | number | null
+  value?: Date | number | bigint | null
 }
 
 export type BooleanMetric = MetricBase & {
@@ -100,18 +113,20 @@ export type DataSetValueTypes = {
   Int8: number
   Int16: number
   Int32: number
-  Int64: number
+  Int64: number | bigint
   UInt8: number
   UInt16: number
   UInt32: number
-  UInt64: number
+  UInt64: number | bigint
   Float: number
   Double: number
   Boolean: boolean
   String: string
-  DateTime: Date | number
+  DateTime: Date | number | bigint
   Text: string
   UUID: string
+  Bytes: Bytes
+  File: Bytes
 }
 
 export type DataSetValueType = keyof DataSetValueTypes
@@ -158,6 +173,7 @@ export type FileMetric = MetricBase & {
 
 export type Metric =
   | NumberMetric
+  | NumberMetric
   | BooleanMetric
   | StringMetric
   | DateTimeMetric
@@ -170,6 +186,12 @@ export type NumberParameter = {
   name?: string
   type: NumberDataType
   value?: number | null
+}
+
+export type BigIntParameter = {
+  name?: string
+  type: BigIntDataType
+  value?: bigint | null
 }
 
 export type BooleanParameter = {
@@ -187,11 +209,12 @@ export type StringParameter = {
 export type DateTimeParameter = {
   name?: string
   type: 'DateTime'
-  value?: Date | number | null
+  value?: Date | number | bigint | null
 }
 
 export type Parameter =
   | NumberParameter
+  | BigIntParameter
   | BooleanParameter
   | StringParameter
   | DateTimeParameter
