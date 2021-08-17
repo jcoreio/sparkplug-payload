@@ -1,0 +1,484 @@
+// @flow
+
+import Long from 'long'
+
+type bigintType = any
+
+type InputInt64 = number | bigintType | Long
+
+export type NumberDataType =
+  | 'Int8'
+  | 'Int16'
+  | 'Int32'
+  | 'Int64'
+  | 'UInt8'
+  | 'UInt16'
+  | 'UInt32'
+  | 'UInt64'
+  | 'Float'
+  | 'Double'
+
+export type BigIntDataType = 'Int64' | 'UInt64'
+
+export type StringDataType = 'String' | 'Text' | 'UUID'
+
+export type MetaData = {|
+  isMultiPart?: boolean | null,
+  contentType?: string | null,
+  size?: bigintType | null,
+  seq?: bigintType | null,
+  fileName?: string | null,
+  fileType?: string | null,
+  md5?: string | null,
+  description?: string | null,
+|}
+
+export type Bytes = Uint8Array
+
+export type NumberPropertyValue = {|
+  type: NumberDataType,
+  value?: number | null,
+|}
+
+export type BigIntPropertyValue = {|
+  type: BigIntDataType,
+  value?: bigintType | null,
+|}
+
+export type StringPropertyValue = {|
+  type: StringDataType,
+  value?: string | null,
+|}
+
+export type BooleanPropertyValue = {|
+  type: 'Boolean',
+  value?: boolean | null,
+|}
+
+export type DateTimePropertyValue = {|
+  type: 'DateTime',
+  value?: bigintType | null,
+|}
+
+export type PropertySetValue = {|
+  type: 'PropertySet',
+  value?: PropertySet | null,
+|}
+
+export type PropertySetListValue = {|
+  type: 'PropertySetList',
+  value?: Array<PropertySet> | null,
+|}
+
+export type PropertyValue =
+  | NumberPropertyValue
+  | BigIntPropertyValue
+  | StringPropertyValue
+  | BooleanPropertyValue
+  | DateTimePropertyValue
+  | PropertySetValue
+  | PropertySetListValue
+
+export type PropertyType = $PropertyType<PropertyValue, 'type'>
+
+export type PropertySet = { [string]: PropertyValue }
+
+export type MetricBase = {|
+  name?: string | null,
+  alias?: bigintType | null,
+  timestamp?: bigintType | null,
+  isHistorical?: boolean | null,
+  isTransient?: boolean | null,
+  metadata?: MetaData | null,
+  properties?: PropertySet | null,
+|}
+
+export type NumberMetric = {|
+  ...MetricBase,
+  type: NumberDataType,
+  value?: number | null,
+|}
+
+export type BigIntMetric = {|
+  ...MetricBase,
+  type: BigIntDataType,
+  value?: bigintType | null,
+|}
+
+export type DateTimeMetric = {|
+  ...MetricBase,
+  type: 'DateTime',
+  value?: bigintType | null,
+|}
+
+export type BooleanMetric = {|
+  ...MetricBase,
+  type: 'Boolean',
+  value?: boolean | null,
+|}
+
+export type StringMetric = {|
+  ...MetricBase,
+  type: StringDataType,
+  value?: string | null,
+|}
+
+export type DataSetValueTypes = {|
+  Int8: number,
+  Int16: number,
+  Int32: number,
+  Int64: bigintType,
+  UInt8: number,
+  UInt16: number,
+  UInt32: number,
+  UInt64: bigintType,
+  Float: number,
+  Double: number,
+  Boolean: boolean,
+  String: string,
+  DateTime: bigintType,
+  Text: string,
+  UUID: string,
+|}
+
+export type DataSetValueType = $Keys<DataSetValueTypes>
+
+export type Row = (number | bigintType | string | boolean | null | void)[]
+
+export type DataSet = {|
+  numOfColumns: number,
+  columns: string[],
+  types: $Keys<DataSetValueTypes>[],
+  rows: Array<Row>,
+|}
+
+export type DataSetMetric = {|
+  ...MetricBase,
+  type: 'DataSet',
+  value?: DataSet | null,
+|}
+
+export type Template = {|
+  metrics?: Metric[] | null,
+  version?: string | null,
+  isDefinition?: boolean | null,
+  templateRef?: string | null,
+  parameters?: Parameter[] | null,
+|}
+
+export type TemplateMetric = {|
+  ...MetricBase,
+  type: 'Template',
+  value?: Template | null,
+|}
+
+export type BytesMetric = {|
+  ...MetricBase,
+  type: 'Bytes',
+  value?: Bytes | null,
+|}
+
+export type FileMetric = {|
+  ...MetricBase,
+  type: 'File',
+  value?: Bytes | null,
+|}
+
+export type Metric =
+  | NumberMetric
+  | BigIntMetric
+  | BooleanMetric
+  | StringMetric
+  | DateTimeMetric
+  | DataSetMetric
+  | TemplateMetric
+  | BytesMetric
+  | FileMetric
+
+export type MetricDataType = $PropertyType<Metric, 'type'>
+
+export type NumberParameter = {|
+  name?: string | null,
+  type: NumberDataType,
+  value?: number | null,
+|}
+
+export type BigIntParameter = {|
+  name?: string | null,
+  type: BigIntDataType,
+  value?: bigintType | null,
+|}
+
+export type BooleanParameter = {|
+  name?: string | null,
+  type: 'Boolean',
+  value?: boolean | null,
+|}
+
+export type StringParameter = {|
+  name?: string | null,
+  type: StringDataType,
+  value?: string | null,
+|}
+
+export type DateTimeParameter = {|
+  name?: string | null,
+  type: 'DateTime',
+  value?: bigintType | null,
+|}
+
+export type Parameter =
+  | NumberParameter
+  | BigIntParameter
+  | BooleanParameter
+  | StringParameter
+  | DateTimeParameter
+
+export type ParameterType = $PropertyType<Parameter, 'type'>
+
+export type Payload = {|
+  timestamp: bigintType,
+  seq?: bigintType | null,
+  uuid?: string | null,
+  body?: Bytes | null,
+  metrics?: Array<Metric> | null,
+|}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export type InputNumberDataType =
+  | 'Int8'
+  | 'Int16'
+  | 'Int32'
+  | 'Int64'
+  | 'UInt8'
+  | 'UInt16'
+  | 'UInt32'
+  | 'UInt64'
+  | 'Float'
+  | 'Double'
+
+export type InputBigIntDataType = 'Int64' | 'UInt64'
+
+export type InputStringDataType = 'String' | 'Text' | 'UUID'
+
+export type InputMetaData = $ReadOnly<{|
+  isMultiPart?: boolean,
+  contentType?: string,
+  size?: InputInt64,
+  seq?: InputInt64,
+  fileName?: string,
+  fileType?: string,
+  md5?: string,
+  description?: string,
+|}>
+
+export type InputBytes = Uint8Array | Buffer | $ReadOnlyArray<number>
+
+export type InputNumberPropertyValue = $ReadOnly<{|
+  type: InputNumberDataType,
+  value?: number | null,
+|}>
+
+export type InputBigIntPropertyValue = $ReadOnly<{|
+  type: InputBigIntDataType,
+  value?: InputInt64 | null,
+|}>
+
+export type InputStringPropertyValue = $ReadOnly<{|
+  type: InputStringDataType,
+  value?: string | null,
+|}>
+
+export type InputBooleanPropertyValue = $ReadOnly<{|
+  type: 'Boolean',
+  value?: boolean | null,
+|}>
+
+export type InputDateTimePropertyValue = $ReadOnly<{|
+  type: 'DateTime',
+  value?: Date | InputInt64 | null,
+|}>
+
+export type InputPropertySetValue = $ReadOnly<{|
+  type: 'PropertySet',
+  value?: InputPropertySet | null,
+|}>
+
+export type InputPropertySetListValue = $ReadOnly<{|
+  type: 'PropertySetList',
+  value?: $ReadOnlyArray<InputPropertySet> | null,
+|}>
+
+export type InputPropertyValue =
+  | InputNumberPropertyValue
+  | InputBigIntPropertyValue
+  | InputStringPropertyValue
+  | InputBooleanPropertyValue
+  | InputDateTimePropertyValue
+  | InputPropertySetValue
+  | InputPropertySetListValue
+
+export type InputPropertySet = $ReadOnly<{ [string]: InputPropertyValue }>
+
+export type InputMetricBase = $ReadOnly<{|
+  name?: string,
+  alias?: InputInt64,
+  timestamp?: InputInt64,
+  isHistorical?: boolean,
+  isTransient?: boolean,
+  metadata?: InputMetaData,
+  properties?: InputPropertySet,
+|}>
+
+export type InputNumberMetric = $ReadOnly<{|
+  ...InputMetricBase,
+  type: InputNumberDataType,
+  value?: number | null,
+|}>
+
+export type InputBigIntMetric = $ReadOnly<{|
+  ...InputMetricBase,
+  type: InputBigIntDataType,
+  value?: InputInt64 | null,
+|}>
+
+export type InputDateTimeMetric = $ReadOnly<{|
+  ...InputMetricBase,
+  type: 'DateTime',
+  value?: Date | InputInt64 | null,
+|}>
+
+export type InputBooleanMetric = $ReadOnly<{|
+  ...InputMetricBase,
+  type: 'Boolean',
+  value?: boolean | null,
+|}>
+
+export type InputStringMetric = $ReadOnly<{|
+  ...InputMetricBase,
+  type: InputStringDataType,
+  value?: string | null,
+|}>
+
+export type InputDataSetValueTypes = $ReadOnly<{|
+  Int8: number,
+  Int16: number,
+  Int32: number,
+  Int64: InputInt64,
+  UInt8: number,
+  UInt16: number,
+  UInt32: number,
+  UInt64: InputInt64,
+  Float: number,
+  Double: number,
+  Boolean: boolean,
+  String: string,
+  DateTime: Date | InputInt64,
+  Text: string,
+  UUID: string,
+|}>
+
+export type InputDataSetValueType = $Keys<InputDataSetValueTypes>
+
+export type InputRow = $ReadOnlyArray<
+  InputInt64 | boolean | string | Date | null | void
+>
+
+export type InputDataSet = $ReadOnly<{|
+  numOfColumns: number,
+  columns: $ReadOnlyArray<string>,
+  types: $ReadOnlyArray<$Keys<InputDataSetValueTypes>>,
+  rows: $ReadOnlyArray<InputRow>,
+|}>
+
+export type InputDataSetMetric = $ReadOnly<{|
+  ...InputMetricBase,
+  type: 'DataSet',
+  value?: InputDataSet | null,
+|}>
+
+export type InputTemplate = $ReadOnly<{|
+  metrics?: $ReadOnlyArray<InputMetric> | null,
+  version?: string | null,
+  isDefinition?: boolean | null,
+  templateRef?: string | null,
+  parameters?: $ReadOnlyArray<InputParameter> | null,
+|}>
+
+export type InputTemplateMetric = $ReadOnly<{|
+  ...InputMetricBase,
+  type: 'Template',
+  value?: InputTemplate | null,
+|}>
+
+export type InputBytesMetric = $ReadOnly<{|
+  ...InputMetricBase,
+  type: 'Bytes',
+  value?: InputBytes | null,
+|}>
+
+export type InputFileMetric = $ReadOnly<{|
+  ...InputMetricBase,
+  type: 'File',
+  value?: InputBytes | null,
+|}>
+
+export type InputMetric =
+  | InputNumberMetric
+  | InputBigIntMetric
+  | InputBooleanMetric
+  | InputStringMetric
+  | InputDateTimeMetric
+  | InputDataSetMetric
+  | InputTemplateMetric
+  | InputBytesMetric
+  | InputFileMetric
+
+export type InputNumberParameter = $ReadOnly<{|
+  name?: string,
+  type: InputNumberDataType,
+  value?: number | null,
+|}>
+
+export type InputBigIntParameter = $ReadOnly<{|
+  name?: string,
+  type: InputBigIntDataType,
+  value?: InputInt64 | null,
+|}>
+
+export type InputBooleanParameter = $ReadOnly<{|
+  name?: string,
+  type: 'Boolean',
+  value?: boolean | null,
+|}>
+
+export type InputStringParameter = $ReadOnly<{|
+  name?: string,
+  type: StringDataType,
+  value?: string | null,
+|}>
+
+export type InputDateTimeParameter = $ReadOnly<{|
+  name?: string,
+  type: 'DateTime',
+  value?: Date | InputInt64 | null,
+|}>
+
+export type InputParameter =
+  | InputNumberParameter
+  | InputBigIntParameter
+  | InputBooleanParameter
+  | InputStringParameter
+  | InputDateTimeParameter
+
+export type InputPayload = $ReadOnly<{|
+  timestamp: InputInt64,
+  seq?: InputInt64,
+  uuid?: string,
+  body?: InputBytes,
+  metrics?: $ReadOnlyArray<InputMetric>,
+|}>
+
+declare export function encodePayload(payload: InputPayload): Uint8Array
+declare export function decodePayload(proto: Uint8Array): Payload
