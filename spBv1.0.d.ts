@@ -29,6 +29,16 @@ export type MetaData = {
 
 export type Bytes = Uint8Array | Buffer | Array<number>
 
+export type Long = {
+  low: number
+  high: number
+  unsigned: boolean
+  toNumber(): number
+  toString(radix?: number): string
+}
+
+export type LongCompatible = Long | number | string
+
 export type NumberPropertyValue = {
   type: NumberDataType
   value?: number | null
@@ -77,7 +87,7 @@ export type PropertySet = Record<string, PropertyValue>
 
 export type MetricBase = {
   name?: string
-  alias?: number
+  alias?: LongCompatible | null
   isHistorical?: boolean
   isTransient?: boolean
   metadata?: MetaData
