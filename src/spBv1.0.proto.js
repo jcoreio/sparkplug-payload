@@ -980,10 +980,11 @@ $root.Payload = (function () {
               message.stringValue = reader.string()
               break
             case 9:
-              message.extensionValue = $root.Payload.Template.Parameter.ParameterValueExtension.decode(
-                reader,
-                reader.uint32()
-              )
+              message.extensionValue =
+                $root.Payload.Template.Parameter.ParameterValueExtension.decode(
+                  reader,
+                  reader.uint32()
+                )
               break
             default:
               reader.skipType(tag & 7)
@@ -1085,9 +1086,10 @@ $root.Payload = (function () {
           if (properties.value === 1) return 'value: multiple values'
           properties.value = 1
           {
-            var error = $root.Payload.Template.Parameter.ParameterValueExtension.verify(
-              message.extensionValue
-            )
+            var error =
+              $root.Payload.Template.Parameter.ParameterValueExtension.verify(
+                message.extensionValue
+              )
             if (error) return 'extensionValue.' + error
           }
         }
@@ -1135,9 +1137,10 @@ $root.Payload = (function () {
             throw TypeError(
               '.Payload.Template.Parameter.extensionValue: object expected'
             )
-          message.extensionValue = $root.Payload.Template.Parameter.ParameterValueExtension.fromObject(
-            object.extensionValue
-          )
+          message.extensionValue =
+            $root.Payload.Template.Parameter.ParameterValueExtension.fromObject(
+              object.extensionValue
+            )
         }
         return message
       }
@@ -1222,10 +1225,11 @@ $root.Payload = (function () {
           message.extensionValue != null &&
           message.hasOwnProperty('extensionValue')
         ) {
-          object.extensionValue = $root.Payload.Template.Parameter.ParameterValueExtension.toObject(
-            message.extensionValue,
-            options
-          )
+          object.extensionValue =
+            $root.Payload.Template.Parameter.ParameterValueExtension.toObject(
+              message.extensionValue,
+              options
+            )
           if (options.oneofs) object.value = 'extensionValue'
         }
         return object
@@ -1324,7 +1328,8 @@ $root.Payload = (function () {
         ParameterValueExtension.decode = function decode(reader, length) {
           if (!(reader instanceof $Reader)) reader = $Reader.create(reader)
           var end = length === undefined ? reader.len : reader.pos + length,
-            message = new $root.Payload.Template.Parameter.ParameterValueExtension()
+            message =
+              new $root.Payload.Template.Parameter.ParameterValueExtension()
           while (reader.pos < end) {
             var tag = reader.uint32()
             switch (tag >>> 3) {
@@ -1988,10 +1993,11 @@ $root.Payload = (function () {
               message.stringValue = reader.string()
               break
             case 7:
-              message.extensionValue = $root.Payload.DataSet.DataSetValue.DataSetValueExtension.decode(
-                reader,
-                reader.uint32()
-              )
+              message.extensionValue =
+                $root.Payload.DataSet.DataSetValue.DataSetValueExtension.decode(
+                  reader,
+                  reader.uint32()
+                )
               break
             default:
               reader.skipType(tag & 7)
@@ -2089,9 +2095,10 @@ $root.Payload = (function () {
           if (properties.value === 1) return 'value: multiple values'
           properties.value = 1
           {
-            var error = $root.Payload.DataSet.DataSetValue.DataSetValueExtension.verify(
-              message.extensionValue
-            )
+            var error =
+              $root.Payload.DataSet.DataSetValue.DataSetValueExtension.verify(
+                message.extensionValue
+              )
             if (error) return 'extensionValue.' + error
           }
         }
@@ -2137,9 +2144,10 @@ $root.Payload = (function () {
             throw TypeError(
               '.Payload.DataSet.DataSetValue.extensionValue: object expected'
             )
-          message.extensionValue = $root.Payload.DataSet.DataSetValue.DataSetValueExtension.fromObject(
-            object.extensionValue
-          )
+          message.extensionValue =
+            $root.Payload.DataSet.DataSetValue.DataSetValueExtension.fromObject(
+              object.extensionValue
+            )
         }
         return message
       }
@@ -2216,10 +2224,11 @@ $root.Payload = (function () {
           message.extensionValue != null &&
           message.hasOwnProperty('extensionValue')
         ) {
-          object.extensionValue = $root.Payload.DataSet.DataSetValue.DataSetValueExtension.toObject(
-            message.extensionValue,
-            options
-          )
+          object.extensionValue =
+            $root.Payload.DataSet.DataSetValue.DataSetValueExtension.toObject(
+              message.extensionValue,
+              options
+            )
           if (options.oneofs) object.value = 'extensionValue'
         }
         return object
@@ -2318,7 +2327,8 @@ $root.Payload = (function () {
         DataSetValueExtension.decode = function decode(reader, length) {
           if (!(reader instanceof $Reader)) reader = $Reader.create(reader)
           var end = length === undefined ? reader.len : reader.pos + length,
-            message = new $root.Payload.DataSet.DataSetValue.DataSetValueExtension()
+            message =
+              new $root.Payload.DataSet.DataSetValue.DataSetValueExtension()
           while (reader.pos < end) {
             var tag = reader.uint32()
             switch (tag >>> 3) {
@@ -2911,10 +2921,11 @@ $root.Payload = (function () {
             )
             break
           case 11:
-            message.extensionValue = $root.Payload.PropertyValue.PropertyValueExtension.decode(
-              reader,
-              reader.uint32()
-            )
+            message.extensionValue =
+              $root.Payload.PropertyValue.PropertyValueExtension.decode(
+                reader,
+                reader.uint32()
+              )
             break
           default:
             reader.skipType(tag & 7)
@@ -3106,9 +3117,10 @@ $root.Payload = (function () {
           throw TypeError(
             '.Payload.PropertyValue.extensionValue: object expected'
           )
-        message.extensionValue = $root.Payload.PropertyValue.PropertyValueExtension.fromObject(
-          object.extensionValue
-        )
+        message.extensionValue =
+          $root.Payload.PropertyValue.PropertyValueExtension.fromObject(
+            object.extensionValue
+          )
       }
       return message
     }
@@ -3210,10 +3222,11 @@ $root.Payload = (function () {
         message.extensionValue != null &&
         message.hasOwnProperty('extensionValue')
       ) {
-        object.extensionValue = $root.Payload.PropertyValue.PropertyValueExtension.toObject(
-          message.extensionValue,
-          options
-        )
+        object.extensionValue =
+          $root.Payload.PropertyValue.PropertyValueExtension.toObject(
+            message.extensionValue,
+            options
+          )
         if (options.oneofs) object.value = 'extensionValue'
       }
       return object
@@ -4680,10 +4693,11 @@ $root.Payload = (function () {
             )
             break
           case 19:
-            message.extensionValue = $root.Payload.Metric.MetricValueExtension.decode(
-              reader,
-              reader.uint32()
-            )
+            message.extensionValue =
+              $root.Payload.Metric.MetricValueExtension.decode(
+                reader,
+                reader.uint32()
+              )
             break
           default:
             reader.skipType(tag & 7)
@@ -4972,9 +4986,10 @@ $root.Payload = (function () {
       if (object.extensionValue != null) {
         if (typeof object.extensionValue !== 'object')
           throw TypeError('.Payload.Metric.extensionValue: object expected')
-        message.extensionValue = $root.Payload.Metric.MetricValueExtension.fromObject(
-          object.extensionValue
-        )
+        message.extensionValue =
+          $root.Payload.Metric.MetricValueExtension.fromObject(
+            object.extensionValue
+          )
       }
       return message
     }
@@ -5161,10 +5176,11 @@ $root.Payload = (function () {
         message.extensionValue != null &&
         message.hasOwnProperty('extensionValue')
       ) {
-        object.extensionValue = $root.Payload.Metric.MetricValueExtension.toObject(
-          message.extensionValue,
-          options
-        )
+        object.extensionValue =
+          $root.Payload.Metric.MetricValueExtension.toObject(
+            message.extensionValue,
+            options
+          )
         if (options.oneofs) object.value = 'extensionValue'
       }
       return object

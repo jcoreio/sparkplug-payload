@@ -507,19 +507,17 @@ const toLong: (value: InputInt64, signed?: boolean) => Long = longBuf
             16
           )
 
-const toBigInt: (
-  value: number | bigint | Long,
-  signed?: boolean
-) => bigint = longBuf
-  ? (value: number | bigint | Long, signed?: boolean): bigint => {
-      if (Long.isLong(value)) {
-        longBuf.writeInt32BE(value.high, 0)
-        longBuf.writeInt32BE(value.low, 4)
-        return signed ? longBuf.readBigInt64BE(0) : longBuf.readBigUInt64BE(0)
+const toBigInt: (value: number | bigint | Long, signed?: boolean) => bigint =
+  longBuf
+    ? (value: number | bigint | Long, signed?: boolean): bigint => {
+        if (Long.isLong(value)) {
+          longBuf.writeInt32BE(value.high, 0)
+          longBuf.writeInt32BE(value.low, 4)
+          return signed ? longBuf.readBigInt64BE(0) : longBuf.readBigUInt64BE(0)
+        }
+        return BigInt(value)
       }
-      return BigInt(value)
-    }
-  : (value: number | bigint | Long) => BigInt(value.toString()) // eslint-disable-line no-undef
+    : (value: number | bigint | Long) => BigInt(value.toString()) // eslint-disable-line no-undef
 
 function toMaybeLong(
   value: InputInt64 | null | undefined,
@@ -1084,4 +1082,108 @@ export function decodePayload(proto: Uint8Array): Payload {
   if (seq != null && hasOwnProperty(decoded, 'seq')) payload.seq = toBigInt(seq)
 
   return payload
+}
+
+function encodeType(
+  typeString: MetricDataType | 'PropertySet' | 'PropertySetList'
+): number {
+  switch (typeString.toUpperCase()) {
+    case 'INT8':
+      return 1
+    case 'INT16':
+      return 2
+    case 'INT32':
+    case 'INT':
+      return 3
+    case 'INT64':
+    case 'LONG':
+      return 4
+    case 'UINT8':
+      return 5
+    case 'UINT16':
+      return 6
+    case 'UINT32':
+      return 7
+    case 'UINT64':
+      return 8
+    case 'FLOAT':
+      return 9
+    case 'DOUBLE':
+      return 10
+    case 'BOOLEAN':
+      return 11
+    case 'STRING':
+      return 12
+    case 'DATETIME':
+      return 13
+    case 'TEXT':
+      return 14
+    case 'UUID':
+      return 15
+    case 'DATASET':
+      return 16
+    case 'BYTES':
+      return 17
+    case 'FILE':
+      return 18
+    case 'TEMPLATE':
+      return 19
+    case 'PROPERTYSET':
+      return 20
+    case 'PROPERTYSETLIST':
+      return 21
+    default:
+      return 0
+  }
+}
+exports.encodeType = encodeType
+
+export function decodeType(
+  typeInt: number
+): MetricDataType | 'PropertySet' | 'PropertySetList' {
+  switch (typeInt) {
+    case 1:
+      return 'Int8'
+    case 2:
+      return 'Int16'
+    case 3:
+      return 'Int32'
+    case 4:
+      return 'Int64'
+    case 5:
+      return 'UInt8'
+    case 6:
+      return 'UInt16'
+    case 7:
+      return 'UInt32'
+    case 8:
+      return 'UInt64'
+    case 9:
+      return 'Float'
+    case 10:
+      return 'Double'
+    case 11:
+      return 'Boolean'
+    case 12:
+      return 'String'
+    case 13:
+      return 'DateTime'
+    case 14:
+      return 'Text'
+    case 15:
+      return 'UUID'
+    case 16:
+      return 'DataSet'
+    case 17:
+      return 'Bytes'
+    case 18:
+      return 'File'
+    case 19:
+      return 'Template'
+    case 20:
+      return 'PropertySet'
+    case 21:
+      return 'PropertySetList'
+  }
+  throw new Error(`invalid type: ${typeInt}`)
 }
