@@ -1084,7 +1084,7 @@ export function decodePayload(proto: Uint8Array): Payload {
   return payload
 }
 
-function encodeType(
+export function encodeType(
   typeString: MetricDataType | 'PropertySet' | 'PropertySetList'
 ): number {
   switch (typeString.toUpperCase()) {
@@ -1136,7 +1136,6 @@ function encodeType(
       return 0
   }
 }
-exports.encodeType = encodeType
 
 export function decodeType(
   typeInt: number
