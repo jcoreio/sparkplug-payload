@@ -63,6 +63,10 @@
   },
   "exports": {
     "./package.json": "./dist/package.json",
+    "./spBv1.0": {
+      "types": "./dist/spBv1.0.d.ts",
+      "default": "./dist/spBv1.0.js"
+    },
     "./*": {
       "types": "./dist/*.d.ts",
       "default": "./dist/*.js"
