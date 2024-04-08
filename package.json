@@ -1,7 +1,7 @@
 {
   "name": "@jcoreio/sparkplug-payload",
   "version": "0.0.0-development",
-  "description": "my personal ES2015 library project skeleton",
+  "description": "routines for encoding and decoding sparkplug payloads",
   "sideEffects": false,
   "scripts": {
     "tsc:watch": "npm run tsc -- --watch",
@@ -15,7 +15,8 @@
     "url": "https://github.com/jcoreio/sparkplug-payload.git"
   },
   "keywords": [
-    "typescript"
+    "mqtt",
+    "sparkplug"
   ],
   "author": "Andy Edwards",
   "license": "MIT",
