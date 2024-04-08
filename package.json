@@ -28,13 +28,14 @@
     "@babel/plugin-proposal-optional-chaining": "^7.12.7",
     "@babel/plugin-syntax-flow": "^7.14.5",
     "@babel/plugin-transform-react-jsx": "^7.14.9",
-    "@jcoreio/toolchain": "^3.2.1",
-    "@jcoreio/toolchain-circle": "^3.2.1",
-    "@jcoreio/toolchain-esnext": "^3.2.1",
-    "@jcoreio/toolchain-flow": "^3.2.1",
-    "@jcoreio/toolchain-mocha": "^3.2.1",
-    "@jcoreio/toolchain-semantic-release": "^3.2.1",
-    "@jcoreio/toolchain-typescript": "^3.2.1",
+    "@jcoreio/eslint-plugin-implicit-dependencies": "^1.1.1",
+    "@jcoreio/toolchain": "^3.10.1",
+    "@jcoreio/toolchain-circle": "^3.10.1",
+    "@jcoreio/toolchain-esnext": "^3.10.1",
+    "@jcoreio/toolchain-flow": "^3.10.1",
+    "@jcoreio/toolchain-mocha": "^3.10.1",
+    "@jcoreio/toolchain-semantic-release": "^3.10.1",
+    "@jcoreio/toolchain-typescript": "^3.10.1",
     "@types/chai": "^4.3.5",
     "@types/long": "^4.0.1",
     "@types/mocha": "^10.0.1",
@@ -48,6 +49,7 @@
     "eslint": "^8.43.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-flowtype": "^8.0.3",
+    "eslint-plugin-no-only-tests": "^3.1.0",
     "flow-bin": "^0.144.0",
     "mocha": "^10.2.0",
     "rimraf": "^3.0.2",
@@ -68,5 +70,5 @@
   "engines": {
     "node": ">=16"
   },
-  "packageManager": "pnpm@8.3.1"
+  "packageManager": "pnpm@8.11.0"
 }

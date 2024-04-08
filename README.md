@@ -24,7 +24,7 @@ npm install --save @jcoreio/sparkplug-payload
 Here is a code example of encoding a payload:
 
 ```javascript
-var sparkplug = require('sparkplug-payload/spBv1.0'),
+var sparkplug = require('@jcoreio/sparkplug-payload/spBv1.0'),
   payload = {
     timestamp: new Date().getTime(),
     metrics: [
